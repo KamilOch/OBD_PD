@@ -172,7 +172,9 @@ public class Main {
 			System.out.println("Wype³nianie tabeli ocenianie");
 			System.out.println("Jeœli chcesz przerwaæ program podaj 0 lub b³êdne dane");
 
-			while (true) {
+			Boolean rating = true;
+
+			while (rating) {
 
 				System.out.println("Podaj id nauczyciela:");
 				if (scanner.hasNextInt()) {
