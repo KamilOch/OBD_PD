@@ -99,7 +99,7 @@ public class Main {
 			String sqlTestDataForTeacher1 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (1, 'Kowalski', 'Adam')";
 			String sqlTestDataForTeacher2 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (5, 'Bednarska', 'Ewa')";
 
-			String sqlTestDataForRating1 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (1, 'niedostateczny', 1)";
+			String sqlTestDataForRating1 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (1, 'niedostateczny', 1.5)";
 			String sqlTestDataForRating2 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (5, 'dostateczny', 3)";
 
 			String sqlTestDataForStudent1 = "INSERT INTO uczen (idu, nazwisko_ucznia, imie_ucznia) VALUES (1, 'Wiœniewski', 'Karol')";
