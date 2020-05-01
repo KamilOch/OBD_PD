@@ -174,17 +174,19 @@ public class Main {
 
 			while (true) {
 
-				System.out.println("Podaj id nauczyciela");
+				System.out.println("Podaj id nauczyciela:");
 				if (scanner.hasNextInt()) {
 					inputTeacherId = scanner.nextInt();
 					if (checkIfIdExistInDataBase("NAUCZYCIEL", "idn", inputTeacherId, connection)) {
 						preparedStatement.setInt(1, inputTeacherId);
 					} else {
 						System.out.println("Nie znaleziono nauczyciela o podanym ID w bazie danych");
+						scanner.close();
 						break;
 					}
 				} else {
 					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+					scanner.close();
 					break;
 				}
 
@@ -195,38 +197,44 @@ public class Main {
 						preparedStatement.setInt(2, inputStudentId);
 					} else {
 						System.out.println("Nie znaleziono studenta o podanym ID w bazie danych");
+						scanner.close();
 						break;
 					}
 				} else {
 					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+					scanner.close();
 					break;
 				}
 
-				System.out.println("Podaj id przedmiotu");
+				System.out.println("Podaj id przedmiotu:");
 				if (scanner.hasNextInt()) {
 					inputSubjectId = scanner.nextInt();
 					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, connection)) {
 						preparedStatement.setInt(3, inputSubjectId);
 					} else {
 						System.out.println("Nie znaleziono przedmiotu o podanym ID w bazie danych");
+						scanner.close();
 						break;
 					}
 				} else {
 					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+					scanner.close();
 					break;
 				}
 
-				System.out.println("Podaj id oceny");
+				System.out.println("Podaj id oceny:");
 				if (scanner.hasNextInt()) {
 					inputRatingId = scanner.nextInt();
 					if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, connection)) {
 						preparedStatement.setInt(4, inputRatingId);
 					} else {
 						System.out.println("Nie znaleziono oceny o podanym ID w bazie danych");
+						scanner.close();
 						break;
 					}
 				} else {
 					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+					scanner.close();
 					break;
 				}
 
@@ -240,6 +248,7 @@ public class Main {
 						if (checkIfSRattingExistInDataBase(inputTeacherId, inputStudentId, inputSubjectId,
 								connection)) {
 							System.out.println("B³¹d! Ocena semestralna zosta³a ju¿ wystawiona");
+							scanner.close();
 							break;
 						} else {
 							preparedStatement.setString(5, "S");
@@ -247,6 +256,7 @@ public class Main {
 					} else {
 						System.out.println(
 								"B³êdne dane wejœciowe. Podano: " + inputRatingTypeId + " Nie podano wartosci C lub S");
+						scanner.close();
 						break;
 					}
 				}
