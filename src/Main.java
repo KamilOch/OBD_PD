@@ -145,6 +145,7 @@ public class Main {
 						+ statement.executeUpdate(sqlTestDataForStudent2));
 			}
 
+			rs.close();
 			connection.close();
 		} catch (SQLException e) {
 
@@ -163,108 +164,189 @@ public class Main {
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlDataForEvaluation);
 
 			Scanner scanner = new Scanner(System.in);
-			int inputTeacherId;
-			int inputStudentId;
-			int inputSubjectId;
-			int inputRatingId;
-			String inputRatingTypeId;
+			String inputTeacherId = "";
+			String inputStudentId = "";
+			String inputSubjectId = "";
+			String inputRatingId = "";
+			String inputRatingTypeId = "";
 
 			System.out.println("Wype³nianie tabeli ocenianie");
-			System.out.println("Jeœli chcesz przerwaæ program podaj 0 lub b³êdne dane");
+			System.out.println(" ");
+//			System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 
-			Boolean rating = true;
+			boolean rating = true;
 
 			while (rating) {
-
+				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id nauczyciela:");
-				if (scanner.hasNextInt()) {
-					inputTeacherId = scanner.nextInt();
-					if (checkIfIdExistInDataBase("NAUCZYCIEL", "idn", inputTeacherId, connection)) {
-						preparedStatement.setInt(1, inputTeacherId);
-					} else {
-						System.out.println("Nie znaleziono nauczyciela o podanym ID w bazie danych");
+
+//				if (scanner.hasNextInt()) {
+//					inputTeacherId = scanner.nextInt();
+//					if (checkIfIdExistInDataBase("NAUCZYCIEL", "idn", inputTeacherId, connection)) {
+//						preparedStatement.setInt(1, inputTeacherId);
+//					} else {
+//						System.out.println("Nie znaleziono nauczyciela o podanym ID w bazie danych");
+//						//scanner.close();
+//						break;
+//					}
+//				} else {
+//					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+//					//scanner.close();
+//					break;
+//				}
+
+				if (scanner.hasNext()) {
+
+					inputTeacherId = scanner.next();
+					;
+					if (inputTeacherId.contentEquals("0")) {
+						rating = false;
 						scanner.close();
 						break;
 					}
-				} else {
-					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
-					scanner.close();
-					break;
+					preparedStatement.setString(1, inputTeacherId);
 				}
-
+				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id ucznia:");
-				if (scanner.hasNextInt()) {
-					inputStudentId = scanner.nextInt();
-					if (checkIfIdExistInDataBase("UCZEN", "idu", inputStudentId, connection)) {
-						preparedStatement.setInt(2, inputStudentId);
-					} else {
-						System.out.println("Nie znaleziono studenta o podanym ID w bazie danych");
+
+//				if (scanner.hasNextInt()) {
+//					inputStudentId = scanner.nextInt();
+//					if (checkIfIdExistInDataBase("UCZEN", "idu", inputStudentId, connection)) {
+//						preparedStatement.setInt(2, inputStudentId);
+//					} else {
+//						System.out.println("Nie znaleziono studenta o podanym ID w bazie danych");
+//						//scanner.close();
+//						break;
+//					}
+//				} else {
+//					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+//					//scanner.close();
+//					break;
+//				}
+				if (scanner.hasNext()) {
+					inputStudentId = scanner.next();
+					if (inputStudentId.contentEquals("0")) {
+						rating = false;
 						scanner.close();
 						break;
 					}
-				} else {
-					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
-					scanner.close();
-					break;
+					preparedStatement.setString(2, inputStudentId);
 				}
 
+				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id przedmiotu:");
-				if (scanner.hasNextInt()) {
-					inputSubjectId = scanner.nextInt();
-					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, connection)) {
-						preparedStatement.setInt(3, inputSubjectId);
-					} else {
-						System.out.println("Nie znaleziono przedmiotu o podanym ID w bazie danych");
+
+//				if (scanner.hasNextInt()) {
+//					inputSubjectId = scanner.nextInt();
+//					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, connection)) {
+//						preparedStatement.setInt(3, inputSubjectId);
+//					} else {
+//						System.out.println("Nie znaleziono przedmiotu o podanym ID w bazie danych");
+//						//scanner.close();
+//						break;
+//					}
+//				} else {
+//					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+//					//scanner.close();
+//					break;
+//				}
+
+				if (scanner.hasNext()) {
+					inputSubjectId = scanner.next();
+					if (inputSubjectId.contentEquals("0")) {
+						rating = false;
 						scanner.close();
 						break;
 					}
-				} else {
-					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
-					scanner.close();
-					break;
+					preparedStatement.setString(3, inputSubjectId);
 				}
-
+				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id oceny:");
-				if (scanner.hasNextInt()) {
-					inputRatingId = scanner.nextInt();
-					if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, connection)) {
-						preparedStatement.setInt(4, inputRatingId);
-					} else {
-						System.out.println("Nie znaleziono oceny o podanym ID w bazie danych");
+
+//				if (scanner.hasNextInt()) {
+//					inputRatingId = scanner.nextInt();
+//					if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, connection)) {
+//						preparedStatement.setInt(4, inputRatingId);
+//					} else {
+//						System.out.println("Nie znaleziono oceny o podanym ID w bazie danych");
+//						//scanner.close();
+//						break;
+//					}
+//				} else {
+//					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
+//					//scanner.close();
+//					break;
+//				}
+
+				if (scanner.hasNext()) {
+					inputRatingId = scanner.next();
+					if (inputRatingId.contentEquals("0")) {
+						rating = false;
 						scanner.close();
 						break;
 					}
-				} else {
-					System.out.println("B³êdne dane wejœciowe. Nie podano wartosci INT");
-					scanner.close();
-					break;
+					preparedStatement.setString(4, inputRatingId);
 				}
 
-				// TODO
+				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj typ oceny: „C” –cz¹stkowa, „S” –semestralna");
+
+//				if (scanner.hasNext()) {
+//					inputRatingTypeId = scanner.next().toUpperCase();
+//					if (inputRatingTypeId.equals("C")) {
+//						preparedStatement.setString(5, "C");
+//					} else if (inputRatingTypeId.equals("S")) {
+//						if (checkIfSRattingExistInDataBase(inputTeacherId, inputStudentId, inputSubjectId,
+//								connection)) {
+//							System.out.println("B³¹d! Ocena semestralna zosta³a ju¿ wystawiona");
+//							//scanner.close();
+//							break;
+//						} else {
+//							preparedStatement.setString(5, "S");
+//						}
+//					} else {
+//						System.out.println(
+//								"B³êdne dane wejœciowe. Podano: " + inputRatingTypeId + " Nie podano wartosci C lub S");
+//						//scanner.close();
+//						break;
+//					}
+//				}
+
 				if (scanner.hasNext()) {
 					inputRatingTypeId = scanner.next().toUpperCase();
 					if (inputRatingTypeId.equals("C")) {
 						preparedStatement.setString(5, "C");
 					} else if (inputRatingTypeId.equals("S")) {
-						if (checkIfSRattingExistInDataBase(inputTeacherId, inputStudentId, inputSubjectId,
-								connection)) {
-							System.out.println("B³¹d! Ocena semestralna zosta³a ju¿ wystawiona");
-							scanner.close();
-							break;
-						} else {
-							preparedStatement.setString(5, "S");
-						}
-					} else {
-						System.out.println(
-								"B³êdne dane wejœciowe. Podano: " + inputRatingTypeId + " Nie podano wartosci C lub S");
+						preparedStatement.setString(5, "S");
+					} else if (inputRatingTypeId.equals("0")) {
+						rating = false;
 						scanner.close();
 						break;
 					}
 				}
 
-				System.out.println("Insert data to table evaluation. execute:" + preparedStatement.executeUpdate());
-			}
+				// TODO
+				if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, connection)) {
+					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, connection)) {
+						if (checkIfIdExistInDataBase("UCZEN", "idu", inputStudentId, connection)) {
+							if (checkIfIdExistInDataBase("NAUCZYCIEL", "idn", inputTeacherId, connection)) {
+								System.out.println("Insert data to table evaluation. execute:"
+										+ preparedStatement.executeUpdate());
+							} else {
+								System.out.println("zly klucz 2 idn");
+							}
+						} else {
+							System.out.println("zly klucz 2 idu");
+						}
+					} else {
+						System.out.println("zly klucz 3 idp");
+					}
+				} else {
+					System.out.println("zly klucz 4 ido");
+				}
+
+//				System.out.println("Insert data to table evaluation. execute:" + preparedStatement.executeUpdate());
+			} // koniec rating
 
 			connection.close();
 		} catch (SQLException e) {
@@ -272,23 +354,26 @@ public class Main {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 			return;
-		}
+		} finally {
+			//TODO nie dzial;
+			//connection.close();
+		} 
+		
 		System.out.println("Koniec programu!");
-
 	}
 
-	private static boolean checkIfSRattingExistInDataBase(int inputTeacherId, int inputStudentId, int inputSubjectId,
+//	private static boolean checkIfSRattingExistInDataBase(int inputTeacherId, int inputStudentId, int inputSubjectId,
+//			Connection connection) throws SQLException {
+//		String sql = "SELECT * FROM ocenianie WHERE idn =" + inputTeacherId + "AND idu=" + inputStudentId + "AND idp="
+//				+ inputSubjectId + "AND rodzaj_oceny = 'S'";
+//
+//		Statement s = connection.createStatement();
+//		ResultSet rs = s.executeQuery(sql);
+//		return rs.next();
+//	}
+
+	private static boolean checkIfIdExistInDataBase(String table, String id, String inputTeacherId,
 			Connection connection) throws SQLException {
-		String sql = "SELECT * FROM ocenianie WHERE idn =" + inputTeacherId + "AND idu=" + inputStudentId + "AND idp="
-				+ inputSubjectId+ "AND rodzaj_oceny = 'S'";
-
-		Statement s = connection.createStatement();
-		ResultSet rs = s.executeQuery(sql);
-		return rs.next();
-	}
-
-	private static boolean checkIfIdExistInDataBase(String table, String id, int inputTeacherId, Connection connection)
-			throws SQLException {
 
 		String sql = "SELECT * FROM " + table + " WHERE " + id + " = " + inputTeacherId;
 
