@@ -22,37 +22,43 @@ public class Main {
 			e.printStackTrace();
 			return;
 		}
+		
 		System.out.println("Sterownik za³adowano poprawnie. Sukces.");
 
-		try {
+		String sqlCreateTableSubject = "CREATE TABLE przedmiot (idp int not null, nazwa_przedmiotu char(20) not null)";
+		String sqlCreateTableTeacher = "CREATE TABLE nauczyciel (idn int not null, nazwisko_nauczyciela char(30) not null, imie_nauczyciela char(20) not null)";
+		String sqlCreateTableRating = "CREATE TABLE ocena (ido int not null, wartosc_opisowa char(20) not null, wartosc_numeryczna float not null)";
+		String sqlCreateTableStudent = "CREATE TABLE uczen (idu int not null, nazwisko_ucznia char(30) not null, imie_ucznia char(20) not null)";
+		String sqlCreateTableEvaluation = "CREATE TABLE ocenianie (idn int not null, idu int not null, idp int not null, ido int not null, rodzaj_oceny char(1) not null)";
+		
+		String sqlTestDataForSubject1 = "INSERT INTO przedmiot (idp, nazwa_przedmiotu) VALUES (1, 'Matematyka')";
+		String sqlTestDataForSubject2 = "INSERT INTO przedmiot (idp, nazwa_przedmiotu) VALUES (5, 'Fizyka')";
 
-			Connection connection = DriverManager.getConnection(LoginData.dataBaseUrl, LoginData.user,
-					LoginData.password);
-			System.out.println("AutoCommit: " + connection.getAutoCommit());
-			connection.close();
-		} catch (SQLException e) {
+		String sqlTestDataForTeacher1 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (1, 'Kowalski', 'Adam')";
+		String sqlTestDataForTeacher2 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (5, 'Bednarska', 'Ewa')";
 
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Test po³¹czenia z baz¹ wykonany. Sukces.");
+		String sqlTestDataForRating1 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (1, 'niedostateczny i pó³', 1.5)";
+		String sqlTestDataForRating2 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (5, 'dostateczny', 3)";
 
-
+		String sqlTestDataForStudent1 = "INSERT INTO uczen (idu, nazwisko_ucznia, imie_ucznia) VALUES (1, 'Wiœniewski', 'Karol')";
+		String sqlTestDataForStudent2 = "INSERT INTO uczen (idu, nazwisko_ucznia, imie_ucznia) VALUES (5, 'Pawlak', 'Waldemar')";
+		
+		String sqlDataForEvaluation = "INSERT INTO ocenianie (idn, idu, idp, ido, rodzaj_oceny) VALUES (?,?,?,?,?)";
+		
 		try (
 				Connection connection = DriverManager.getConnection(LoginData.dataBaseUrl, LoginData.user,
 						LoginData.password);
 				Statement statement = connection.createStatement();
+				
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlDataForEvaluation);
+
+				Scanner scanner = new Scanner(System.in);
 				){
 
-			String sqlCreateTableSubject = "CREATE TABLE przedmiot (idp int not null, nazwa_przedmiotu char(20) not null)";
-			String sqlCreateTableTeacher = "CREATE TABLE nauczyciel (idn int not null, nazwisko_nauczyciela char(30) not null, imie_nauczyciela char(20) not null)";
-			String sqlCreateTableRating = "CREATE TABLE ocena (ido int not null, wartosc_opisowa char(20) not null, wartosc_numeryczna float not null)";
-			String sqlCreateTableStudent = "CREATE TABLE uczen (idu int not null, nazwisko_ucznia char(30) not null, imie_ucznia char(20) not null)";
-			String sqlCreateTableEvaluation = "CREATE TABLE ocenianie (idn int not null, idu int not null, idp int not null, ido int not null, rodzaj_oceny char(1) not null)";
-
 			System.out.println("AutoCommit: " + connection.getAutoCommit());
-
+			
+			System.out.println("Test po³¹czenia z baz¹ wykonany. Sukces.");
+			
 			DatabaseMetaData dbm = connection.getMetaData();
 
 			ResultSet tables = dbm.getTables(null, null, "PRZEDMIOT", null);
@@ -94,18 +100,7 @@ public class Main {
 				System.out.println(
 						"Tworzenie tabeli OCENIANIE w bazie danych. execute: " + statement.execute(sqlCreateTableEvaluation));
 			}
-
-			String sqlTestDataForSubject1 = "INSERT INTO przedmiot (idp, nazwa_przedmiotu) VALUES (1, 'Matematyka')";
-			String sqlTestDataForSubject2 = "INSERT INTO przedmiot (idp, nazwa_przedmiotu) VALUES (5, 'Fizyka')";
-
-			String sqlTestDataForTeacher1 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (1, 'Kowalski', 'Adam')";
-			String sqlTestDataForTeacher2 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (5, 'Bednarska', 'Ewa')";
-
-			String sqlTestDataForRating1 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (1, 'niedostateczny i pó³', 1.5)";
-			String sqlTestDataForRating2 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (5, 'dostateczny', 3)";
-
-			String sqlTestDataForStudent1 = "INSERT INTO uczen (idu, nazwisko_ucznia, imie_ucznia) VALUES (1, 'Wiœniewski', 'Karol')";
-			String sqlTestDataForStudent2 = "INSERT INTO uczen (idu, nazwisko_ucznia, imie_ucznia) VALUES (5, 'Pawlak', 'Waldemar')";
+			
 
 			ResultSet rs = statement.executeQuery("SELECT * FROM przedmiot");
 			if (rs.next()) {
@@ -148,30 +143,6 @@ public class Main {
 			}
 
 			rs.close();
-		} catch (SQLException e) {
-
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
-			return;
-		}
-
-		String sqlDataForEvaluation = "INSERT INTO ocenianie (idn, idu, idp, ido, rodzaj_oceny) VALUES (?,?,?,?,?)";
-
-		try (
-				Connection connection = DriverManager.getConnection(LoginData.dataBaseUrl, LoginData.user,
-						LoginData.password);
-				PreparedStatement preparedStatement = connection.prepareStatement(sqlDataForEvaluation);
-
-				Scanner scanner = new Scanner(System.in);
-				) {
-
-			System.out.println("AutoCommit: " + connection.getAutoCommit());
-
-			String inputTeacherId = "";
-			String inputStudentId = "";
-			String inputSubjectId = "";
-			String inputRatingId = "";
-			String inputRatingTypeId = "";
 
 			System.out.println("Wype³nianie tabeli ocenianie");
 			System.out.println(" ");
@@ -179,6 +150,13 @@ public class Main {
 			boolean rating = true;
 
 			while (rating) {
+
+				String inputTeacherId = "";
+				String inputStudentId = "";
+				String inputSubjectId = "";
+				String inputRatingId = "";
+				String inputRatingTypeId = "";
+
 				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id nauczyciela:");
 
@@ -186,7 +164,6 @@ public class Main {
 					inputTeacherId = scanner.next();
 					if (inputTeacherId.contentEquals("0")) {
 						rating = false;
-						scanner.close();
 						break;
 					}
 					preparedStatement.setString(1, inputTeacherId);
@@ -198,7 +175,6 @@ public class Main {
 					inputStudentId = scanner.next();
 					if (inputStudentId.contentEquals("0")) {
 						rating = false;
-						scanner.close();
 						break;
 					}
 					preparedStatement.setString(2, inputStudentId);
@@ -211,7 +187,6 @@ public class Main {
 					inputSubjectId = scanner.next();
 					if (inputSubjectId.contentEquals("0")) {
 						rating = false;
-						scanner.close();
 						break;
 					}
 					preparedStatement.setString(3, inputSubjectId);
@@ -223,7 +198,6 @@ public class Main {
 					inputRatingId = scanner.next();
 					if (inputRatingId.contentEquals("0")) {
 						rating = false;
-						scanner.close();
 						break;
 					}
 					preparedStatement.setString(4, inputRatingId);
@@ -240,16 +214,15 @@ public class Main {
 						preparedStatement.setString(5, "S");
 					} else if (inputRatingTypeId.equals("0")) {
 						rating = false;
-						scanner.close();
 						break;
 					}
 				}
 
-				if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, connection)) {
-					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, connection)) {
-						if (checkIfIdExistInDataBase("UCZEN", "idu", inputStudentId, connection)) {
-							if (checkIfIdExistInDataBase("NAUCZYCIEL", "idn", inputTeacherId, connection)) {
-								System.out.println("Insert data to table evaluation. execute:"
+				if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, statement)) {
+					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, statement)) {
+						if (checkIfIdExistInDataBase("UCZEN", "idu", inputStudentId, statement)) {
+							if (checkIfIdExistInDataBase("NAUCZYCIEL", "idn", inputTeacherId, statement)) {
+								System.out.println("Wstawiono dane do tabeli OCENIANIE. execute:"
 										+ preparedStatement.executeUpdate());
 							} else {
 								System.out.println("Error report -\n" +
@@ -279,11 +252,12 @@ public class Main {
 	}
 
 	private static boolean checkIfIdExistInDataBase(String table, String id, String inputTeacherId,
-			Connection connection) throws SQLException {
-
+			Statement s) throws SQLException {
+			
 		String sql = "SELECT * FROM " + table + " WHERE " + id + " = " + inputTeacherId;
-		Statement s = connection.createStatement();
 		ResultSet rs = s.executeQuery(sql);
-		return rs.next();
+		Boolean result = rs.next();
+		rs.close();
+		return result;
 	}
 }
