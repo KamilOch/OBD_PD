@@ -22,7 +22,7 @@ public class Main {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		System.out.println("Sterownik za³adowano poprawnie. Sukces.");
 
 		String sqlCreateTableSubject = "CREATE TABLE przedmiot (idp int not null, nazwa_przedmiotu char(20) not null)";
@@ -33,13 +33,10 @@ public class Main {
 		
 		String sqlTestDataForSubject1 = "INSERT INTO przedmiot (idp, nazwa_przedmiotu) VALUES (1, 'Matematyka')";
 		String sqlTestDataForSubject2 = "INSERT INTO przedmiot (idp, nazwa_przedmiotu) VALUES (5, 'Fizyka')";
-
 		String sqlTestDataForTeacher1 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (1, 'Kowalski', 'Adam')";
 		String sqlTestDataForTeacher2 = "INSERT INTO nauczyciel (idn, nazwisko_nauczyciela, imie_nauczyciela) VALUES (5, 'Bednarska', 'Ewa')";
-
 		String sqlTestDataForRating1 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (1, 'niedostateczny i pó³', 1.5)";
 		String sqlTestDataForRating2 = "INSERT INTO ocena (ido, wartosc_opisowa, wartosc_numeryczna) VALUES (5, 'dostateczny', 3)";
-
 		String sqlTestDataForStudent1 = "INSERT INTO uczen (idu, nazwisko_ucznia, imie_ucznia) VALUES (1, 'Wiœniewski', 'Karol')";
 		String sqlTestDataForStudent2 = "INSERT INTO uczen (idu, nazwisko_ucznia, imie_ucznia) VALUES (5, 'Pawlak', 'Waldemar')";
 		
@@ -100,7 +97,6 @@ public class Main {
 				System.out.println(
 						"Tworzenie tabeli OCENIANIE w bazie danych. execute: " + statement.execute(sqlCreateTableEvaluation));
 			}
-			
 
 			ResultSet rs = statement.executeQuery("SELECT * FROM przedmiot");
 			if (rs.next()) {
@@ -151,67 +147,130 @@ public class Main {
 
 			while (rating) {
 
-				String inputTeacherId = "";
-				String inputStudentId = "";
-				String inputSubjectId = "";
-				String inputRatingId = "";
-				String inputRatingTypeId = "";
+				int inputTeacherId = -1;
+				int inputStudentId = -1;
+				int inputSubjectId = -1;
+				int inputRatingId = -1;
+				String inputRatingTypeId;
 
 				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id nauczyciela:");
 
-				if (scanner.hasNext()) {
-					inputTeacherId = scanner.next();
-					if (inputTeacherId.contentEquals("0")) {
-						rating = false;
-						break;
+				boolean teacherIdIsInt = false;
+				while (!teacherIdIsInt){
+					try{
+						inputTeacherId = Integer.parseInt(scanner.next());
+					} catch (NumberFormatException e){
+						System.out.println("Dane nie s¹ typu INT. Podaj jeszcze raz");
 					}
-					preparedStatement.setString(1, inputTeacherId);
+						if(inputTeacherId == 0){
+							rating=false;
+							//TODO
+							break;
+						} else if(inputTeacherId != -1){
+							preparedStatement.setInt(1, inputTeacherId);
+							teacherIdIsInt = true;
+						}
 				}
+//				if (scanner.hasNext()) {
+//                        inputTeacherId = scanner.next();
+//                        if (inputTeacherId.equals("0")) {
+//                            rating = false;
+//                            break;
+//                        }
+//					preparedStatement.setString(1, inputTeacherId);
+//				}
 				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id ucznia:");
 
-				if (scanner.hasNext()) {
-					inputStudentId = scanner.next();
-					if (inputStudentId.contentEquals("0")) {
-						rating = false;
-						break;
+				boolean studentIdIsInt = false;
+				while (!studentIdIsInt){
+					try {
+						inputStudentId = Integer.parseInt(scanner.next());
+					} catch (NumberFormatException e) {
+						System.out.println("Dane nie s¹ typu INT. Podaj jeszcze raz");
 					}
-					preparedStatement.setString(2, inputStudentId);
+					if(inputStudentId == 0){
+						rating = false;
+						//TODO
+						break;
+					} else if (inputStudentId != -1){
+						preparedStatement.setInt(2, inputStudentId);
+						studentIdIsInt = true;
+					}
 				}
+//				if (scanner.hasNext()) {
+//					inputStudentId = scanner.next();
+//					if (inputStudentId.contentEquals("0")) {
+//						rating = false;
+//						break;
+//					}
+//					preparedStatement.setString(2, inputStudentId);
+//				}
 
 				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id przedmiotu:");
 
-				if (scanner.hasNext()) {
-					inputSubjectId = scanner.next();
-					if (inputSubjectId.contentEquals("0")) {
-						rating = false;
-						break;
-					}
-					preparedStatement.setString(3, inputSubjectId);
+				boolean subjectIdIsInt = false;
+				while (!subjectIdIsInt){
+				try {
+					inputSubjectId  = Integer.parseInt(scanner.next());
+				} catch (NumberFormatException e){
+					System.out.println("Dane nie s¹ typu INT. Podaj jeszcze raz");
 				}
+				if(inputSubjectId == 0){
+					rating = false;
+					//TODO
+					break;
+				} else if (inputSubjectId != -1){
+					preparedStatement.setInt(3, inputSubjectId);
+					subjectIdIsInt = true;
+				}
+				}
+//				if (scanner.hasNext()) {
+//					inputSubjectId = scanner.next();
+//					if (inputSubjectId.contentEquals("0")) {
+//						rating = false;
+//						break;
+//					}
+//					preparedStatement.setString(3, inputSubjectId);
+//				}
+
 				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 				System.out.println("Podaj id oceny:");
 
-				if (scanner.hasNext()) {
-					inputRatingId = scanner.next();
-					if (inputRatingId.contentEquals("0")) {
-						rating = false;
-						break;
+				boolean ratingIdIsInt = false;
+				while (!ratingIdIsInt){
+					try {
+						inputRatingId = Integer.parseInt(scanner.next());
+					} catch (NumberFormatException e){
+						System.out.println("Dane nie s¹ typu INT. Podaj jeszcze raz");
 					}
-					preparedStatement.setString(4, inputRatingId);
+					if(inputRatingId == 0){
+						rating = false;
+						//TODO
+						break;
+					} else if (inputRatingId != -1){
+						preparedStatement.setInt(4,inputRatingId);
+						ratingIdIsInt = true;
+					}
+
 				}
+//				if (scanner.hasNext()) {
+//					inputRatingId = scanner.next();
+//					if (inputRatingId.contentEquals("0")) {
+//						rating = false;
+//						break;
+//					}
+//					preparedStatement.setString(4, inputRatingId);
+//				}
 
-//				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
-//				System.out.println("Podaj typ oceny: „C” –cz¹stkowa, „S” –semestralna");
-
-				//TODO
 				boolean correctRattingType = true;
-
 				while(correctRattingType) {
+
 					System.out.println("Jeœli chcesz przerwaæ program podaj 0");
 					System.out.println("Podaj typ oceny: „C” –cz¹stkowa, „S” –semestralna");
+
 					if (scanner.hasNext()) {
 						inputRatingTypeId = scanner.next().toUpperCase();
 						if (inputRatingTypeId.equals("C")) {
@@ -223,10 +282,11 @@ public class Main {
 						} else if (inputRatingTypeId.equals("0")) {
 							rating = false;
 							break;
+						} else {
+							System.out.println("Podano nieprawid³owe dane: " + inputRatingTypeId + ", podaj jeszcze raz");
 						}
 					}
 				}
-				//KONIEC
 
 				if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, statement)) {
 					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, statement)) {
@@ -236,8 +296,7 @@ public class Main {
 										+ preparedStatement.executeUpdate());
 							} else {
 								System.out.println("Error report -\n" +
-												"ORA-02291: naruszono wiêzy spójnoœci (idn) - nie znaleziono klucza nadrzêdnego"
-										);
+												"ORA-02291: naruszono wiêzy spójnoœci (idn) - nie znaleziono klucza nadrzêdnego");
 							}
 						} else {
 							System.out.println("Error report -\n" +
@@ -251,7 +310,6 @@ public class Main {
 					System.out.println("Error report -\n" +
 							"ORA-02291: naruszono wiêzy spójnoœci (ido) - nie znaleziono klucza nadrzêdnego");
 				}
-
 			}
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
@@ -261,10 +319,10 @@ public class Main {
 		System.out.println("Koniec programu!");
 	}
 
-	private static boolean checkIfIdExistInDataBase(String table, String id, String inputTeacherId,
+	private static boolean checkIfIdExistInDataBase(String table, String id, int inputId,
 			Statement s) throws SQLException {
 			
-		String sql = "SELECT * FROM " + table + " WHERE " + id + " = " + inputTeacherId;
+		String sql = "SELECT * FROM " + table + " WHERE " + id + " = " + inputId;
 		ResultSet rs = s.executeQuery(sql);
 		boolean result = rs.next();
 		rs.close();
