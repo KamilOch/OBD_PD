@@ -52,7 +52,7 @@ public class Main {
 				
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlDataForEvaluation);
 
-				Scanner scanner = new Scanner(System.in);
+				Scanner scanner = new Scanner(System.in)
 				){
 
 			System.out.println("AutoCommit: " + connection.getAutoCommit());
@@ -203,20 +203,30 @@ public class Main {
 					preparedStatement.setString(4, inputRatingId);
 				}
 
-				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
-				System.out.println("Podaj typ oceny: „C” –cz¹stkowa, „S” –semestralna");
+//				System.out.println("Jeœli chcesz przerwaæ program podaj 0");
+//				System.out.println("Podaj typ oceny: „C” –cz¹stkowa, „S” –semestralna");
 
-				if (scanner.hasNext()) {
-					inputRatingTypeId = scanner.next().toUpperCase();
-					if (inputRatingTypeId.equals("C")) {
-						preparedStatement.setString(5, "C");
-					} else if (inputRatingTypeId.equals("S")) {
-						preparedStatement.setString(5, "S");
-					} else if (inputRatingTypeId.equals("0")) {
-						rating = false;
-						break;
+				//TODO
+				boolean correctRattingType = true;
+
+				while(correctRattingType) {
+					System.out.println("Jeœli chcesz przerwaæ program podaj 0");
+					System.out.println("Podaj typ oceny: „C” –cz¹stkowa, „S” –semestralna");
+					if (scanner.hasNext()) {
+						inputRatingTypeId = scanner.next().toUpperCase();
+						if (inputRatingTypeId.equals("C")) {
+							preparedStatement.setString(5, "C");
+							correctRattingType = false;
+						} else if (inputRatingTypeId.equals("S")) {
+							preparedStatement.setString(5, "S");
+							correctRattingType = false;
+						} else if (inputRatingTypeId.equals("0")) {
+							rating = false;
+							break;
+						}
 					}
 				}
+				//KONIEC
 
 				if (checkIfIdExistInDataBase("OCENA", "ido", inputRatingId, statement)) {
 					if (checkIfIdExistInDataBase("PRZEDMIOT", "idp", inputSubjectId, statement)) {
@@ -256,7 +266,7 @@ public class Main {
 			
 		String sql = "SELECT * FROM " + table + " WHERE " + id + " = " + inputTeacherId;
 		ResultSet rs = s.executeQuery(sql);
-		Boolean result = rs.next();
+		boolean result = rs.next();
 		rs.close();
 		return result;
 	}
