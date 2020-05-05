@@ -147,16 +147,16 @@ public class Main {
                     try {
                         inputTeacherId = Integer.parseInt(scanner.next());
                     } catch (NumberFormatException e) {
-                        System.out.println("Dane nie s¹ typu INT. Podaj jeszcze raz");
+                        System.out.println("Dane nie s¹ typu INT. Podaj jeszcze raz.");
                     }
                     if (inputTeacherId == 0) {
                         break ratingLoop;
-                    } else if (inputTeacherId != -1) {
+                    } else if (inputTeacherId > 0) {
                         preparedStatement.setInt(1, inputTeacherId);
                         teacherIdIsInt = true;
-                    } else {
-                        //TODO
-                        System.out.println("a kuku");}
+                    } else if (inputTeacherId < 0){
+                        System.out.println("Podana liczba jest ujemna, wymagana jest dodatnia");
+                    }
                 }
 
                 System.out.println("Jeœli chcesz przerwaæ program podaj 0");
@@ -166,15 +166,26 @@ public class Main {
                 while (!studentIdIsInt) {
                     try {
                         inputStudentId = Integer.parseInt(scanner.next());
+
+                        if (inputStudentId == 0) {
+                            break ratingLoop;
+                        } else if (inputStudentId > 0) {
+                            preparedStatement.setInt(2, inputStudentId);
+                            studentIdIsInt = true;
+                        } else if(inputStudentId < 0) {
+                            System.out.println("Podana liczba jest ujemna, wymagana jest dodatnia");
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println("Dane nie s¹ typu INT. Podaj jeszcze raz");
                     }
-                    if (inputStudentId == 0) {
-                        break ratingLoop;
-                    } else if (inputStudentId != -1) {
-                        preparedStatement.setInt(2, inputStudentId);
-                        studentIdIsInt = true;
-                    }
+//                    if (inputStudentId == 0) {
+//                        break ratingLoop;
+//                    } else if (inputStudentId > 0) {
+//                        preparedStatement.setInt(2, inputStudentId);
+//                        studentIdIsInt = true;
+//                    } else if(inputStudentId < 0) {
+//                        System.out.println("Podana liczba jest ujemna, wymagana jest dodatnia");
+//                    }
                 }
 
                 System.out.println("Jeœli chcesz przerwaæ program podaj 0");
@@ -189,9 +200,11 @@ public class Main {
                     }
                     if (inputSubjectId == 0) {
                         break ratingLoop;
-                    } else if (inputSubjectId != -1) {
+                    } else if (inputSubjectId > 0) {
                         preparedStatement.setInt(3, inputSubjectId);
                         subjectIdIsInt = true;
+                    } else if (inputSubjectId < 0) {
+                        System.out.println("Podana liczba jest ujemna, wymagana jest dodatnia");
                     }
                 }
 
@@ -207,9 +220,11 @@ public class Main {
                     }
                     if (inputRatingId == 0) {
                         break ratingLoop;
-                    } else if (inputRatingId != -1) {
+                    } else if (inputRatingId > 0) {
                         preparedStatement.setInt(4, inputRatingId);
                         ratingIdIsInt = true;
+                    } else if (inputRatingId < 0) {
+                        System.out.println("Podana liczba jest ujemna, wymagana jest dodatnia");
                     }
                 }
 
